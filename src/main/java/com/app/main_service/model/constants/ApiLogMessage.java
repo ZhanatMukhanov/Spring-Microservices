@@ -6,12 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ApiLogMessage {
-    POST_INFO_BY_ID("Receiving post with id: %s"),
-    POST_CREATED("Post created: %s");
+    POST_INFO_BY_ID("Receiving post with id: {}"),
+    NAME_OF_CURRENT_METHOD("Current method: {}");
 
-    private final String message;
+    private final String value;
 
-    public String getMessage(Object... args) {
-        return String.format(message, args);
-    }
 }
