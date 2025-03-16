@@ -1,36 +1,38 @@
 package com.app.main_service.controller;
 
-import com.app.main_service.service.PostService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.app.main_service.model.constants.ApiErrorMessage;
+import com.app.main_service.model.constants.ApiLogMessage;
+import com.app.main_service.model.entities.Post;
+import com.app.main_service.repositories.PostRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
+@Slf4j
 @RestController
-@RequestMapping("/posts")
+@RequiredArgsConstructor
+@RequestMapping("${end.point.posts}")
 public class PostController {
-    private final PostService postService;
 
-    @Autowired
-    public PostController(PostService postService) {
-        this.postService = postService;
+    private final PostRepository postRepository;
+
+    @GetMapping("${end.point.id}")
+    public ResponseEntity<Post> getPostById(
+            @PathVariable(name = "id") Integer id) {
+
+        log.info(ApiLogMessage.POST_INFO_BY_ID.getMessage(id));
+        return postRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> {
+                    log.error(ApiErrorMessage.POST_NOT_FOUND_BY_ID.getMessage(id));
+                    return ResponseEntity.notFound().build();
+                });
+
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<String> createPost(@RequestBody Map<String, Object> requestBody) {
-        String title = (String) requestBody.get("title");
-        String content = (String) requestBody.get("content");
-
-        String postContent = String.format("Title: %s%n%nContent: %s", title, content);
-
-        postService.createPost(postContent);
-
-        return ResponseEntity.ok("Post created: "+ title);
-    }
 }
 
