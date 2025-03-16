@@ -30,7 +30,7 @@ public class PostController {
 
         postService.createPost(postContent);
 
-        return new ResponseEntity<>(String.format("Post %s created successfully", title), HttpStatus.OK);
+        return ResponseEntity.ok("Post created: "+ title);
     }
 }
 
