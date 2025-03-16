@@ -1,36 +1,37 @@
 package com.app.main_service.controller;
 
+import com.app.main_service.model.constants.ApiLogMessage;
+import com.app.main_service.model.dto.post.PostDTO;
+import com.app.main_service.model.response.MainResponse;
 import com.app.main_service.service.PostService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.app.main_service.utils.ApiUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
+@Slf4j
 @RestController
-@RequestMapping("/posts")
+@RequiredArgsConstructor
+@RequestMapping("${end.point.posts}")
 public class PostController {
+
     private final PostService postService;
 
-    @Autowired
-    public PostController(PostService postService) {
-        this.postService = postService;
+    @GetMapping("${end.point.id}")
+    public ResponseEntity<MainResponse<PostDTO>> getPostById(
+            @PathVariable(name = "id") Integer postId) {
+
+        log.trace(ApiLogMessage.NAME_OF_CURRENT_METHOD.getValue(), ApiUtils.getMethodName());
+
+        MainResponse<PostDTO> response = postService.getById(postId);
+
+        return ResponseEntity.ok(response);
+
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<String> createPost(@RequestBody Map<String, Object> requestBody) {
-        String title = (String) requestBody.get("title");
-        String content = (String) requestBody.get("content");
-
-        String postContent = String.format("Title: %s%n%nContent: %s", title, content);
-
-        postService.createPost(postContent);
-
-        return ResponseEntity.ok("Post created: "+ title);
-    }
 }
 
