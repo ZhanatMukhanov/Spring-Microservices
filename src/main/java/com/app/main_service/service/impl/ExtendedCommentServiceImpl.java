@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("extendedCommentService")
 public class ExtendedCommentServiceImpl implements CommentService {
 
     private final List<String> comments = new ArrayList<>();
