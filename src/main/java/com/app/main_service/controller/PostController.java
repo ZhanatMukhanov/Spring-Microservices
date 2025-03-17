@@ -3,6 +3,7 @@ package com.app.main_service.controller;
 import com.app.main_service.model.constants.ApiLogMessage;
 import com.app.main_service.model.dto.post.PostDTO;
 import com.app.main_service.model.request.post.PostRequest;
+import com.app.main_service.model.request.post.UpdatePostRequest;
 import com.app.main_service.model.response.MainResponse;
 import com.app.main_service.service.PostService;
 import com.app.main_service.utils.ApiUtils;
@@ -40,5 +41,18 @@ public class PostController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("${end.points.id}")
+    public ResponseEntity<MainResponse<PostDTO>> updatePostById(
+            @PathVariable(name = "id") Integer postId,
+            @RequestBody @Valid UpdatePostRequest postRequest) {
+        log.trace(ApiLogMessage.NAME_OF_CURRENT_METHOD.getValue(), ApiUtils.getMethodName());
+
+        MainResponse<PostDTO> updatePost = postService.updatePost(postId, postRequest);
+
+        return ResponseEntity.ok(updatePost);
+    }
+
+
 }
 

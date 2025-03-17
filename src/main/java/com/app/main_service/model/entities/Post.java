@@ -25,6 +25,9 @@ public class Post {
     @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime created;
 
+    @Column(nullable = false)
+    private LocalDateTime updated;
+
     @Column(nullable = false, columnDefinition = "integer default 0")
     private int likes = 0;
 }
