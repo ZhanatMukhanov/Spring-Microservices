@@ -5,21 +5,19 @@ import com.app.main_service.model.constants.ApiErrorMessage;
 import com.app.main_service.model.dto.post.PostDTO;
 import com.app.main_service.model.entities.Post;
 import com.app.main_service.model.exception.NotFoundException;
+import com.app.main_service.model.request.post.PostRequest;
 import com.app.main_service.model.response.MainResponse;
 import com.app.main_service.repositories.PostRepository;
 import com.app.main_service.service.PostService;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostMapper postMapper;
-
-    public PostServiceImpl(PostRepository postRepository, PostMapper postMapper) {
-        this.postRepository = postRepository;
-        this.postMapper = postMapper;
-    }
 
     @Override
     public MainResponse<PostDTO> getById(@NotNull Integer postId) {
@@ -31,4 +29,17 @@ public class PostServiceImpl implements PostService {
         return MainResponse.createSuccessful(postDto);
 
     }
+
+    @Override
+    public MainResponse<PostDTO> createPost(@NotNull PostRequest postRequest) {
+        Post post = postMapper.createPost(postRequest);
+
+        Post savedPost = postRepository.save(post);
+
+        PostDTO postDto = postMapper.toPostDTO(savedPost);
+
+        return MainResponse.createSuccessful(postDto);
+    }
+
+
 }

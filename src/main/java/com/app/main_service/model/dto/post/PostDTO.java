@@ -1,6 +1,5 @@
 package com.app.main_service.model.dto.post;
 
-import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

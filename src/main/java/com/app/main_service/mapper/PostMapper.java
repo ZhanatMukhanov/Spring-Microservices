@@ -2,6 +2,7 @@ package com.app.main_service.mapper;
 
 import com.app.main_service.model.dto.post.PostDTO;
 import com.app.main_service.model.entities.Post;
+import com.app.main_service.model.request.post.PostRequest;
 import org.hibernate.type.descriptor.DateTimeUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,4 +21,7 @@ public interface PostMapper {
     @Mapping(source = "likes", target = "likes")
     PostDTO toPostDTO(Post post);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "created", ignore = true)
+    Post createPost(PostRequest postRequest);
 }
