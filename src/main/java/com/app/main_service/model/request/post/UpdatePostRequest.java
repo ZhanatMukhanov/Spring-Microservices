@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostRequest implements Serializable {
+public class UpdatePostRequest implements Serializable {
 
     @NotBlank(message = "Title can't be empty!")
     private String title;
