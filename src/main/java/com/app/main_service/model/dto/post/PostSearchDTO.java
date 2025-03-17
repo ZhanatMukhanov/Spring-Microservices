@@ -10,11 +10,12 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDTO implements Serializable {
+public class PostSearchDTO implements Serializable {
 
     private int id;
     private String title;
     private String content;
     private LocalDateTime created;
     private int likes;
+    private boolean isDeleted;
 }

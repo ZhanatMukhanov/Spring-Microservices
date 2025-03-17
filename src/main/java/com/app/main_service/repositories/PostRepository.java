@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Integer> {
     boolean existsByTitle(String title);
     Optional<Post> findByIdAndDeletedIsFalse(Integer id);
+
 }
