@@ -30,4 +30,7 @@ public class Post {
 
     @Column(nullable = false, columnDefinition = "integer default 0")
     private int likes = 0;
+
+    @Column(nullable = false)
+    private boolean deleted = false;
 }
